@@ -1,26 +1,47 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Container} from './styled-components/styled-components';
+import ColItem from "./components/ColItem";
+import {useGetCardsQuery} from "./store/indexApi";
+import {Route, Switch} from "react-router";
+import Register from "./components/Register";
+import MainHeader from "./components/MainHeader";
+import Auth from './components/Auth';
+import {useSelector} from "react-redux";
+import {selectAllCards} from "./store/indexSlice";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const cards = useGetCardsQuery({});
+    console.log(cards, 'cards');
+
+    const currentCards = useSelector(selectAllCards);
+    console.log(currentCards, 'currentCards')
+
+
+
+    return (
+        <>
+            <MainHeader/>
+            <Container className="App">
+                <Switch>
+                    <Route path='/' exact>
+                        {
+                            //currentCards.map()
+                        }
+                        <ColItem/>
+                        <ColItem/>
+                        <ColItem/>
+                        <ColItem/>
+                    </Route>
+                    <Route path='/register'>
+                        <Register/>
+                    </Route>
+                    <Route path='/auth'>
+                        <Auth/>
+                    </Route>
+                </Switch>
+            </Container>
+        </>
+    );
 }
 
 export default App;
