@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Container} from './styled-components/styled-components';
 import ColItem from "./components/ColItem";
 import {useGetCardsQuery} from "./store/indexApi";
@@ -18,17 +18,18 @@ function App() {
 
     const sorted: any = [];
 
-    currentCards.forEach((i) => {
-        const index = Number(i.row);
-        console.log(index)
+    if(cards.status === 'fulfilled') {
+        cards.data.forEach((i: any) => {
+            const index = Number(i.row);
 
-        if(sorted[index]) {
-            sorted[index].push(i);
-        } else {
-            sorted[index] = [];
-            sorted[index].push(i)
-        }
-    });
+            if(sorted[index]) {
+                sorted[index].push(i);
+            } else {
+                sorted[index] = [];
+                sorted[index].push(i)
+            }
+        });
+    }
     console.log(sorted);
 
     return (

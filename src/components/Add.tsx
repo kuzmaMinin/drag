@@ -1,11 +1,7 @@
 import React, {FC, useState} from 'react';
 import {
-    AddButton,
-    AddButtonWrap,
-    AddContainer,
-    AddInput,
-    CardButton,
-    CloseWrap
+    AddButton, AddButtonWrap, AddContainer,
+    AddInput, CardButton, CloseWrap
 } from '../styled-components/styled-components';
 import Plus from "./Plus";
 import Close from "./Close";
@@ -27,7 +23,8 @@ const Add: FC = ({column}: any) => {
     }
 
     function handleClose() {
-        setShowForm(false)
+        setText('');
+        setShowForm(false);
     }
 
     function handleAddItem() {
@@ -39,6 +36,8 @@ const Add: FC = ({column}: any) => {
         }
 
         dispatch(addPost(post));
+        setText('');
+        setShowForm(false);
     }
 
     return (
@@ -50,7 +49,7 @@ const Add: FC = ({column}: any) => {
                         <AddButtonWrap>
                             <AddButton onClick={handleAddItem}>Добавить карточку</AddButton>
                             <CloseWrap onClick={handleClose}>
-                                <Close/>
+                                <Close width='28px' height='28px'/>
                             </CloseWrap>
                         </AddButtonWrap>
                     </>

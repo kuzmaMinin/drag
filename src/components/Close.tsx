@@ -1,6 +1,11 @@
 import React, {CSSProperties, FC} from 'react';
 
-const Close: FC = () => {
+interface ICloseProps {
+    width: string;
+    height: string;
+}
+
+const Close: FC<ICloseProps> = ({width = '28px', height = '28px'}) => {
     const style: CSSProperties = {
         fill: 'none',
         stroke: '#bbb8b8',
@@ -10,7 +15,7 @@ const Close: FC = () => {
     }
 
     return (
-        <svg height="28px" width="28px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <svg height={height} width={width} viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
             <title/>
             <g id="cross">
                 <line style={style} x1="7" x2="25" y1="7" y2="25"/>

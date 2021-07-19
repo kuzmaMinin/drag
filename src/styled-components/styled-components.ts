@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   min-height: 100vh;
-  padding: 0 150px;
+  padding: 0 150px 50px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -58,6 +58,7 @@ export const Card = styled.div`
 `
 
 export const CardBody = styled.div`
+  position: relative;
   color: #bbb8b8;
 `
 
@@ -197,5 +198,11 @@ export const RegisterButton = styled.button`
   :active {
     background-color: #4949d580;
   }
+`;
+
+export const DeleteWrap = styled.div`
+    position: absolute;
+    top: 0;
+    right: 10px;
 `;
 
