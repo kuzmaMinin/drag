@@ -10,7 +10,7 @@ export interface IInitialState {
 export interface ICard {
     id: number;
     seq_num?: number;
-    row_number: number;
+    row: string;
     text: string;
 }
 

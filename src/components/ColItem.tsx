@@ -2,8 +2,9 @@ import React, {FC} from 'react';
 import {Column, ColumnContainer, Header} from "../styled-components/styled-components";
 import Item from "./Item";
 import Add from "./Add";
+import {ICard} from "../../interfaces/interfaces";
 
-const ColItem: FC = () => {
+const ColItem: FC = ({column}: any) => {
     function handleDragOver(e: React.DragEvent) {
         e.preventDefault();
         //console.log(e, 'drag over')
@@ -28,12 +29,15 @@ const ColItem: FC = () => {
             onDragEnter={handleDragEnter}
             onDragLeave={handleDragLeave}
         >
-            <Header>ON-HOLD</Header>
+            <Header/>
             <Column>
-                <Item />
-                <Item/>
+                {
+                    column.map((item: any) => {
+                        return <Item item={item} key={item.id}/>
+                    })
+                }
             </Column>
-            <Add/>
+            <Add column={column}/>
         </ColumnContainer>
     );
 };

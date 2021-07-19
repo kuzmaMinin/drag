@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   padding: 0 150px;
   display: flex;
   flex-direction: row;
@@ -55,11 +55,6 @@ export const Card = styled.div`
   :active {
     cursor: grabbing;
   }
-`
-
-export const CardHeader = styled.div`
-  margin-bottom: 10px;
-  color: white;
 `
 
 export const CardBody = styled.div`

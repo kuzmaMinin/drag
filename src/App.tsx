@@ -16,7 +16,20 @@ function App() {
     const currentCards = useSelector(selectAllCards);
     console.log(currentCards, 'currentCards')
 
+    const sorted: any = [];
 
+    currentCards.forEach((i) => {
+        const index = Number(i.row);
+        console.log(index)
+
+        if(sorted[index]) {
+            sorted[index].push(i);
+        } else {
+            sorted[index] = [];
+            sorted[index].push(i)
+        }
+    });
+    console.log(sorted);
 
     return (
         <>
@@ -25,12 +38,11 @@ function App() {
                 <Switch>
                     <Route path='/' exact>
                         {
-                            //currentCards.map()
+                            sorted.map((column: any[], idx: number) => {
+                                console.log(column);
+                                return <ColItem column={column} key={idx}/>
+                            })
                         }
-                        <ColItem/>
-                        <ColItem/>
-                        <ColItem/>
-                        <ColItem/>
                     </Route>
                     <Route path='/register'>
                         <Register/>

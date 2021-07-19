@@ -25,7 +25,6 @@ const Auth: FC = () => {
 
     function handleLogin() {
         const body = {username, password}
-        console.log(login, 'login', body, 'body');
 
         loginUser(body)
             .then(response => {
