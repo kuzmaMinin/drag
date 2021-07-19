@@ -6,23 +6,20 @@ import {Route, Switch} from "react-router";
 import Register from "./components/Register";
 import MainHeader from "./components/MainHeader";
 import Auth from './components/Auth';
-import {useSelector} from "react-redux";
-import {selectAllCards} from "./store/indexSlice";
+import {ICard} from "../interfaces/interfaces";
 
 function App() {
-    const cards = useGetCardsQuery({});
-    console.log(cards, 'cards');
-
-    const currentCards = useSelector(selectAllCards);
-    console.log(currentCards, 'currentCards')
+    const cards = useGetCardsQuery({ refetchOnMountOrArgChange: true,});
+    //const {data} = useGetCardsQuery();
+    console.log(cards);
 
     const sorted: any = [];
 
-    if(cards.status === 'fulfilled') {
+    if (cards.status === 'fulfilled') {
         cards.data.forEach((i: any) => {
             const index = Number(i.row);
 
-            if(sorted[index]) {
+            if (sorted[index]) {
                 sorted[index].push(i);
             } else {
                 sorted[index] = [];
@@ -30,7 +27,6 @@ function App() {
             }
         });
     }
-    console.log(sorted);
 
     return (
         <>
@@ -39,9 +35,8 @@ function App() {
                 <Switch>
                     <Route path='/' exact>
                         {
-                            sorted.map((column: any[], idx: number) => {
-                                console.log(column);
-                                return <ColItem column={column} key={idx}/>
+                            sorted.map((column: ICard[], idx: number) => {
+                                return <ColItem column={column} key={idx} columnRow={idx}/>
                             })
                         }
                     </Route>

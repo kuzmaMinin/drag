@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {IUser} from "../../interfaces/interfaces";
+import {ICard, IUser} from "../../interfaces/interfaces";
 
 
 export const indexApi = createApi({
@@ -23,7 +23,7 @@ export const indexApi = createApi({
                 body,
             })
         }),
-        getCards: builder.query({
+        getCards: builder.query<any, any>({
             query: () => ({
                 url: 'cards/',
                 method: 'GET',
@@ -31,8 +31,45 @@ export const indexApi = createApi({
                     Authorization: `jwt ${window.localStorage.getItem('auth-token')}`
                 }
             })
+        }),
+        createCard: builder.mutation({
+            query: (body: ICard) => ({
+                url: 'cards/',
+                method: 'POST',
+                headers: {
+                    Authorization: `jwt ${window.localStorage.getItem('auth-token')}`
+                },
+                body,
+            })
+        }),
+        deleteCard: builder.mutation({
+            query: (id: number) => ({
+                url: `cards/${id}`,
+                method: 'DELETE',
+                headers: {
+                    Authorization: `jwt ${window.localStorage.getItem('auth-token')}`
+                }
+            })
+        }),
+        updateCard: builder.mutation({
+            // @ts-ignore
+            query: (id: number, data) => ({
+                url: `cards/${id}`,
+                method: 'PATCH',
+                headers: {
+                    Authorization: `jwt ${window.localStorage.getItem('auth-token')}`
+                },
+                data
+            })
         })
     })
 })
 
-export const {useGetCardsQuery, useCreateUserMutation, useLoginUserMutation} = indexApi;
+export const {
+    useGetCardsQuery,
+    useCreateUserMutation,
+    useLoginUserMutation,
+    useCreateCardMutation,
+    useDeleteCardMutation,
+    useUpdateCardMutation
+} = indexApi;

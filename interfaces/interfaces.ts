@@ -8,7 +8,7 @@ export interface IInitialState {
 }
 
 export interface ICard {
-    id: number;
+    id?: number;
     seq_num?: number;
     row: string;
     text: string;

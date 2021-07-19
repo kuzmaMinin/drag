@@ -5,13 +5,18 @@ import {
 } from '../styled-components/styled-components';
 import Plus from "./Plus";
 import Close from "./Close";
-import {useDispatch} from "react-redux";
-import {addPost} from "../store/indexSlice";
+import {ICard} from "../../interfaces/interfaces";
+import { useCreateCardMutation } from '../store/indexApi';
 
-const Add: FC = ({column}: any) => {
+interface IAddProps {
+    column: ICard[];
+}
+
+const Add: FC<IAddProps> = ({column}) => {
     const [showForm, setShowForm] = useState<boolean>(false);
     const [text, setText] = useState<string>();
-    const dispatch = useDispatch();
+
+    const [createPost] = useCreateCardMutation();
 
     function showItem() {
         setShowForm(true)
@@ -30,12 +35,11 @@ const Add: FC = ({column}: any) => {
     function handleAddItem() {
         const post = {
             text: text,
-            id: Date.now(),
-            seq_num: column[column.length - 1].seq_num + 1,
             row: column[0].row
         }
 
-        dispatch(addPost(post));
+        // @ts-ignore
+        createPost(post);
         setText('');
         setShowForm(false);
     }
