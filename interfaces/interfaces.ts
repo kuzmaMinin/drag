@@ -1,6 +1,6 @@
 export interface IState {
     cards: ICard[],
-    isLogged: boolean
+    status: string
 }
 
 export interface IInitialState {

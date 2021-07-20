@@ -26,7 +26,7 @@ const MainHeader: FC = () => {
                 <Link to='/'>Главная</Link>
             </LinkItem>
             {
-                window.localStorage.getItem('auth-token') ? withAuth : withoutAuth
+                window.localStorage.getItem('auth-token') ? withoutAuth : withAuth
             }
         </HeaderContainer>
     );

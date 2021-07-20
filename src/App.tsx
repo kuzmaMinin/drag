@@ -7,16 +7,21 @@ import Register from "./components/Register";
 import MainHeader from "./components/MainHeader";
 import Auth from './components/Auth';
 import {ICard} from "../interfaces/interfaces";
+import {useDispatch} from "react-redux";
+
 
 function App() {
-    const cards = useGetCardsQuery({ refetchOnMountOrArgChange: true,});
-    //const {data} = useGetCardsQuery();
-    console.log(cards);
+   // const dispatch = useDispatch();
+    const {data, isLoading} = useGetCardsQuery();
+    console.log(data, isLoading);
 
     const sorted: any = [];
+    if(isLoading) {
+        return <li>loading...</li>
+    } else {
+       // dispatch(setPosts(data));
 
-    if (cards.status === 'fulfilled') {
-        cards.data.forEach((i: any) => {
+        data && data.forEach((i: any) => {
             const index = Number(i.row);
 
             if (sorted[index]) {

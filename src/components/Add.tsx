@@ -6,15 +6,21 @@ import {
 import Plus from "./Plus";
 import Close from "./Close";
 import {ICard} from "../../interfaces/interfaces";
-import { useCreateCardMutation } from '../store/indexApi';
+import {useCreateCardMutation} from '../store/indexApi';
+import {useDispatch} from "react-redux";
 
 interface IAddProps {
     column: ICard[];
 }
 
+interface ICardRes {
+    text: string;
+    row: string;
+}
+
 const Add: FC<IAddProps> = ({column}) => {
     const [showForm, setShowForm] = useState<boolean>(false);
-    const [text, setText] = useState<string>();
+    const [text, setText] = useState<string>('');
 
     const [createPost] = useCreateCardMutation();
 
@@ -33,13 +39,14 @@ const Add: FC<IAddProps> = ({column}) => {
     }
 
     function handleAddItem() {
-        const post = {
+        const card: ICardRes = {
             text: text,
             row: column[0].row
         }
 
-        // @ts-ignore
-        createPost(post);
+        createPost(card).then(response => {
+            console.log(response)
+        });
         setText('');
         setShowForm(false);
     }
