@@ -3,58 +3,34 @@ import {Card, CardBody, DeleteWrap} from "../styled-components/styled-components
 import Close from "./Close";
 import {ICard} from "../../interfaces/interfaces";
 import {useDeleteCardMutation} from '../store/indexApi';
-import {useDispatch} from "react-redux";
-import {setIndex} from "../store/indexSlice";
+
 
 interface IItemProps {
     item: ICard;
+    handleDragStart: (e: React.DragEvent, itemIndex: number | undefined, itemText: string, columnIndex: string, ) => void;
+    columnRow: string;
+    handleDragEnter: (e: React.DragEvent, itemIndex: number | undefined) => void;
+    handleDragLeave: (e: React.DragEvent) => void;
 }
 
-const Item: FC<IItemProps> = ({item}) => {
+const Item: FC<IItemProps> = ({item, handleDragStart, columnRow, handleDragEnter, handleDragLeave}) => {
     const [deleteCard] = useDeleteCardMutation();
-    const dispatch = useDispatch();
 
-    function handleDragStart(e: React.DragEvent) {
-        e.dataTransfer.setData('text', item.text);
-        //@ts-ignore
-        e.dataTransfer.setData('card_id', item.id);
-        //@ts-ignore
-        e.dataTransfer.setData('card_seq_num', item.seq_num);
-
-        setTimeout(() => {
-            //@ts-ignore
-            e.target.style.display = 'none';
-        }, 0)
-
-    }
-
-    function handleDragEnter(e: React.DragEvent) {
+    function handleDragOver(e: React.DragEvent) {
         e.stopPropagation();
-        // @ts-ignore
-        console.log((Number(item.seq_num) + 1).toString());
-        //@ts-ignore
-        dispatch(setIndex((Number(item.seq_num) + 1).toString()));
-    }
-
-    function handleDragLeave(e: React.DragEvent) {
-        e.stopPropagation();
-        dispatch(setIndex('0'));
-        //@ts-ignore
-        e.target.style.display = 'flex';
     }
 
     function handleDelete() {
-        console.log(item.id);
-
         deleteCard(item.id || 0);
     }
 
     return (
         <Card
             draggable={true}
-            onDragStart={handleDragStart}
-            onDragEnter={handleDragEnter}
-            onDragLeave={handleDragLeave}
+            onDragStart={(e) => handleDragStart(e, item.id, item.text, columnRow)}
+            onDragOver={handleDragOver}
+            onDragEnter={(e) => handleDragEnter(e, item.seq_num)}
+            onDragLeave={(e) => handleDragLeave(e)}
         >
             <CardBody>
                 <DeleteWrap onClick={handleDelete}>

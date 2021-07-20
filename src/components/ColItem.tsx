@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useRef} from 'react';
 import {Column, ColumnContainer, Header} from "../styled-components/styled-components";
 import Item from "./Item";
 import Add from "./Add";
@@ -12,9 +12,14 @@ interface IColItemProps {
     columnRow: string;
     title: string;
     bgc: string;
+    handleDragStart: (e: React.DragEvent, itemIndex: number | undefined, itemText: string, columnIndex: string) => void;
+    handleDropCol: (e: React.DragEvent, columnRow: string, seq_index: string) => void;
+    handleDragEnter: (e: React.DragEvent, itemIndex: number | undefined) => void;
+    handleDragLeave: (e: React.DragEvent) => void;
 }
 
-const ColItem: FC<IColItemProps> = ({column, columnRow, title, bgc}) => {
+const ColItem: FC<IColItemProps> = ({column, columnRow, title, bgc, handleDragStart,
+                                        handleDropCol, handleDragEnter, handleDragLeave}) => {
     const [updateCard] = useUpdateCardMutation();
     const seq_index = useSelector(selectIndex);
 
@@ -38,29 +43,17 @@ const ColItem: FC<IColItemProps> = ({column, columnRow, title, bgc}) => {
         }).then(response => console.log(response, 'update'));
     }
 
-    function handleDragEnter(e: React.DragEvent) {
-        e.preventDefault();
-        // console.log(e, 'card')
-    }
-
-    function handleDragLeave(e: React.DragEvent) {
-        e.preventDefault();
-        //console.log(e, 'leave')
-    }
-
-
     return (
         <ColumnContainer
             onDragOver={handleDragOver}
-            onDrop={handleDrop}
-            onDragEnter={handleDragEnter}
-            onDragLeave={handleDragLeave}
+            onDrop={(e) => handleDropCol(e, columnRow, seq_index)}
         >
             <Header bgc={bgc}>{title}({column.length})</Header>
             <Column>
                 {
                     column.map((item: any) => {
-                        return <Item item={item} key={item.id}/>
+                        return <Item item={item} key={item.id} handleDragStart={handleDragStart} columnRow={columnRow}
+                                     handleDragEnter={handleDragEnter} handleDragLeave={handleDragLeave}/>
                     })
                 }
             </Column>
