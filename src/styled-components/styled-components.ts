@@ -12,7 +12,7 @@ export const Container = styled.div`
 `;
 
 export const ColumnContainer = styled.div`
-  margin-top: 100px;
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
 `
@@ -25,14 +25,18 @@ export const Column = styled.div`
   background-color: #1f1d1d;
 `;
 
-export const Header = styled.div`
+interface IHeaderProps {
+    bgc: string;
+}
+
+export const Header = styled.div<IHeaderProps> `
   width: 100%;
   height: 60px;
   padding: 10px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  background-color: #4949d5;
+  background: ${props => props.bgc || 'white'};
   color: white;
   font-size: 20px;
   box-sizing: border-box;
@@ -155,7 +159,7 @@ export const LinkItem = styled.li`
       color: #bbb8b890;
     }
   }
-  
+
   :first-child {
     margin-right: auto;
   }
@@ -191,18 +195,20 @@ export const RegisterButton = styled.button`
   color: #bbb8b8;
   border: none;
   background-color: #4949d5;
+
   :hover {
     cursor: pointer;
     background-color: #4949d590;
   }
+
   :active {
     background-color: #4949d580;
   }
 `;
 
 export const DeleteWrap = styled.div`
-    position: absolute;
-    top: 0;
-    right: 10px;
+  position: absolute;
+  top: 0;
+  right: 10px;
 `;
 

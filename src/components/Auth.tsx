@@ -1,20 +1,18 @@
 import React, {FC, useState} from 'react';
-import {useLoginUserMutation} from "../store/indexApi";
+import {useGetCardsQuery, useLoginUserMutation} from "../store/indexApi";
 import {RegisterButton, RegisterForm, RegisterInput} from "../styled-components/styled-components";
 import {useHistory} from "react-router";
-
-// interface IAuthResponse {
-//     data?: IDataResponse;
-// }
-//
-// interface IDataResponse {
-//     token: string;
-// }
+import {useDispatch} from "react-redux";
+import {setToken} from "../store/indexSlice";
 
 const Auth: FC = () => {
-    const [username, setUsername] = useState<string>();
-    const [password, setPassword] = useState<string>();
+    const [username, setUsername] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const history = useHistory();
+
+    const {refetch} = useGetCardsQuery();
+
+    const dispatch = useDispatch();
 
     function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         const {id, value} = e.target;
@@ -39,12 +37,14 @@ const Auth: FC = () => {
                 // @ts-ignore
                 const token = response.data.token;
                 window.localStorage.setItem('auth-token', token);
-                console.log(response);
 
-                history.push('/');
-            }).catch(err => {
-            console.log(err);
-        });
+                dispatch(setToken(token));
+                console.log( window.localStorage.getItem('auth-token'))
+                //history.push('/');
+                //refetch();
+
+                //console.log(response);
+            }).catch(err => console.log(err));
 
         setUsername('');
         setPassword('');

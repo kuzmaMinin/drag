@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Container} from './styled-components/styled-components';
 import ColItem from "./components/ColItem";
 import {useGetCardsQuery} from "./store/indexApi";
@@ -7,29 +7,21 @@ import Register from "./components/Register";
 import MainHeader from "./components/MainHeader";
 import Auth from './components/Auth';
 import {ICard} from "../interfaces/interfaces";
-import {useDispatch} from "react-redux";
-
 
 function App() {
-   // const dispatch = useDispatch();
     const {data, isLoading} = useGetCardsQuery();
     console.log(data, isLoading);
 
-    const sorted: any = [];
-    if(isLoading) {
-        return <li>loading...</li>
-    } else {
-       // dispatch(setPosts(data));
-
+    const sorted: any = [
+        {title: 'ON-HOLD', items: [], id: 0, bgc: '#e74b4b'},
+        {title: 'IN-PROGRESS', items: [], id: 1, bgc: '#4949d5'},
+        {title: 'NEEDS-REVIEW', items: [], id: 2, bgc: '#e0b650'},
+        {title: 'APPROVED', items: [], id: 3, bgc: '#09aa0c'},
+    ];
+    if (!isLoading) {
         data && data.forEach((i: any) => {
             const index = Number(i.row);
-
-            if (sorted[index]) {
-                sorted[index].push(i);
-            } else {
-                sorted[index] = [];
-                sorted[index].push(i)
-            }
+            sorted[index].items.push(i);
         });
     }
 
@@ -40,8 +32,14 @@ function App() {
                 <Switch>
                     <Route path='/' exact>
                         {
-                            sorted.map((column: ICard[], idx: number) => {
-                                return <ColItem column={column} key={idx} columnRow={idx}/>
+                            sorted.map((column: { title: string, items: ICard[], id: number, bgc: string }) => {
+                                return <ColItem
+                                    column={column.items}
+                                    title={column.title}
+                                    key={column.id}
+                                    bgc={column.bgc}
+                                    columnRow={column.id.toString()}
+                                />
                             })
                         }
                     </Route>

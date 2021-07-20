@@ -4,7 +4,8 @@ export interface IState {
 }
 
 export interface IInitialState {
-    cards: ICard[],
+    currentIndex: string;
+    token: string | null;
 }
 
 export interface ICard {
@@ -15,8 +16,8 @@ export interface ICard {
 }
 
 export interface IUser {
-    email?: string | undefined;
-    username: string | undefined;
-    password: string | undefined;
-    token?: string | undefined;
+    email?: string;
+    username: string;
+    password: string;
+    token?: string;
 }

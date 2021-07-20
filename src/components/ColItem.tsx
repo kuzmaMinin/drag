@@ -4,45 +4,50 @@ import Item from "./Item";
 import Add from "./Add";
 import {ICard} from "../../interfaces/interfaces";
 import {useUpdateCardMutation} from '../store/indexApi';
+import {useSelector} from "react-redux";
+import {selectIndex} from "../store/indexSlice";
 
 interface IColItemProps {
     column: ICard[];
-    columnRow: number;
+    columnRow: string;
+    title: string;
+    bgc: string;
 }
 
-const ColItem: FC<IColItemProps> = ({column, columnRow}) => {
+const ColItem: FC<IColItemProps> = ({column, columnRow, title, bgc}) => {
     const [updateCard] = useUpdateCardMutation();
+    const seq_index = useSelector(selectIndex);
 
     function handleDragOver(e: React.DragEvent) {
         e.preventDefault();
-        //console.log(e, 'drag over')
     }
 
     function handleDrop(e: React.DragEvent) {
         e.preventDefault();
         console.log(e, 'drop');
 
-        const card_id = e.dataTransfer.getData('card_id');
         const text = e.dataTransfer.getData('text');
-        const seq_num = e.dataTransfer.getData('seq_num');
+        const card_id = e.dataTransfer.getData('card_id');
+        console.log(text, columnRow);
 
-       console.log(card_id, 'id', columnRow, 'row', text, 'text', seq_num, 'seq_num');
-
-        const data = {row: 0, text, seq_num: 255}
-
-        // @ts-ignore
-        updateCard(card_id, data).then(response => console.log(response));
+        updateCard({
+            id: card_id,
+            row: columnRow,
+            text,
+            seq_num: seq_index
+        }).then(response => console.log(response, 'update'));
     }
 
     function handleDragEnter(e: React.DragEvent) {
         e.preventDefault();
-        console.log(e, 'card')
+        // console.log(e, 'card')
     }
 
     function handleDragLeave(e: React.DragEvent) {
         e.preventDefault();
         //console.log(e, 'leave')
     }
+
 
     return (
         <ColumnContainer
@@ -51,7 +56,7 @@ const ColItem: FC<IColItemProps> = ({column, columnRow}) => {
             onDragEnter={handleDragEnter}
             onDragLeave={handleDragLeave}
         >
-            <Header/>
+            <Header bgc={bgc}>{title}({column.length})</Header>
             <Column>
                 {
                     column.map((item: any) => {
@@ -59,7 +64,7 @@ const ColItem: FC<IColItemProps> = ({column, columnRow}) => {
                     })
                 }
             </Column>
-            <Add column={column}/>
+            <Add column={column} columnRow={columnRow}/>
         </ColumnContainer>
     );
 };

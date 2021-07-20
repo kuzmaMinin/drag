@@ -7,10 +7,10 @@ import Plus from "./Plus";
 import Close from "./Close";
 import {ICard} from "../../interfaces/interfaces";
 import {useCreateCardMutation} from '../store/indexApi';
-import {useDispatch} from "react-redux";
 
 interface IAddProps {
     column: ICard[];
+    columnRow: string;
 }
 
 interface ICardRes {
@@ -18,7 +18,7 @@ interface ICardRes {
     row: string;
 }
 
-const Add: FC<IAddProps> = ({column}) => {
+const Add: FC<IAddProps> = ({column, columnRow}) => {
     const [showForm, setShowForm] = useState<boolean>(false);
     const [text, setText] = useState<string>('');
 
@@ -41,7 +41,7 @@ const Add: FC<IAddProps> = ({column}) => {
     function handleAddItem() {
         const card: ICardRes = {
             text: text,
-            row: column[0].row
+            row: columnRow
         }
 
         createPost(card).then(response => {

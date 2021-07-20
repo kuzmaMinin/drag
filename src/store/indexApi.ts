@@ -1,7 +1,7 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
 import {ICard, IUser} from "../../interfaces/interfaces";
 
-type TCardsResponse = ICard[]
+type TCardsResponse = ICard[];
 
 export const indexApi = createApi({
     reducerPath: 'index',
@@ -23,7 +23,8 @@ export const indexApi = createApi({
                 url: 'users/login/',
                 method: 'POST',
                 body,
-            })
+            }),
+            invalidatesTags: ['ICard']
         }),
         getCards: builder.query<TCardsResponse, void>({
             query: () => ({
@@ -48,7 +49,7 @@ export const indexApi = createApi({
         }),
         deleteCard: builder.mutation({
             query: (id: number) => ({
-                url: `cards/${id}`,
+                url: `cards/${id}/`,
                 method: 'DELETE',
                 headers: {
                     Authorization: `jwt ${window.localStorage.getItem('auth-token')}`
@@ -57,14 +58,13 @@ export const indexApi = createApi({
             invalidatesTags: ['ICard'],
         }),
         updateCard: builder.mutation({
-            // @ts-ignore
-            query: (id: number, data) => ({
-                url: `cards/${id}`,
+            query: ({id, ...patch}) => ({
+                url: `cards/${id}/`,
                 method: 'PATCH',
                 headers: {
                     Authorization: `jwt ${window.localStorage.getItem('auth-token')}`
                 },
-                data
+                body: patch
             }),
             invalidatesTags: ['ICard'],
         })
