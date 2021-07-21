@@ -6,6 +6,7 @@ export interface IState {
 export interface IInitialState {
     currentIndex: string;
     token: string | null;
+    isAuth: boolean;
 }
 
 export interface ICard {

@@ -1,13 +1,19 @@
 import React, {FC} from 'react';
 import {Link} from 'react-router-dom';
-import {HeaderContainer, LinkItem} from '../styled-components/styled-components';
+import {Exit, HeaderContainer, LinkItem} from '../styled-components/styled-components';
 import {useHistory} from "react-router";
+import {useDispatch, useSelector} from "react-redux";
+import {selectIsAuth, setAuth} from "../store/indexSlice";
 
 const MainHeader: FC = () => {
+    const isAuth = useSelector(selectIsAuth);
+    const dispatch = useDispatch();
+
     const history = useHistory();
 
     function handleExit() {
         window.localStorage.removeItem('auth-token');
+        dispatch(setAuth(false));
         history.push('/auth');
     }
 
@@ -16,21 +22,21 @@ const MainHeader: FC = () => {
             <Link to='/register'>Регистрация</Link>
         </LinkItem>
         <LinkItem>
-            <Link to='/auth'>Войти</Link>
+            {!isAuth && <Link to='/auth'>Войти</Link>}
         </LinkItem>
     </>;
 
     const withAuth = <LinkItem onClick={handleExit}>
-        <Link to='/auth'>Выйти</Link>
+        <Exit>Выйти</Exit>
     </LinkItem>
 
     return (
         <HeaderContainer>
             <LinkItem>
-                <Link to='/'>Главная</Link>
+                {isAuth && <Link to='/'>Главная</Link>}
             </LinkItem>
             {
-                window.localStorage.getItem('auth-token') ? withAuth : withoutAuth
+                isAuth ? withAuth : withoutAuth
             }
         </HeaderContainer>
     );

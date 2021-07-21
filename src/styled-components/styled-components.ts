@@ -212,3 +212,10 @@ export const DeleteWrap = styled.div`
   right: 10px;
 `;
 
+export const Exit = styled.span`
+  color: white;
+  :hover {
+    cursor: pointer;
+  }
+`
+

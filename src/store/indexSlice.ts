@@ -4,7 +4,8 @@ import {RootState} from "./store";
 
 const initialState: IInitialState = {
     currentIndex: '0',
-    token: null
+    token: null,
+    isAuth: false
 }
 
 const indexReducer = createSlice({
@@ -17,12 +18,16 @@ const indexReducer = createSlice({
         setToken: (state, action) => {
             state.token = action.payload
         },
+        setAuth: (state, action) => {
+            state.isAuth = action.payload
+        },
     },
 });
 
-export const {setIndex, setToken} = indexReducer.actions;
+export const {setIndex, setToken, setAuth} = indexReducer.actions;
 
 export default indexReducer.reducer;
 
 export const selectIndex = (state: RootState) => state.cards.currentIndex;
 export const selectToken = (state: RootState) => state.cards.currentIndex;
+export const selectIsAuth = (state: RootState) => state.cards.isAuth;

@@ -3,7 +3,7 @@ import {useGetCardsQuery, useLoginUserMutation} from "../store/indexApi";
 import {RegisterButton, RegisterForm, RegisterInput} from "../styled-components/styled-components";
 import {useHistory} from "react-router";
 import {useDispatch} from "react-redux";
-import {setToken} from "../store/indexSlice";
+import {setAuth, setToken} from "../store/indexSlice";
 
 const Auth: FC = () => {
     const [username, setUsername] = useState<string>('');
@@ -39,11 +39,12 @@ const Auth: FC = () => {
                 window.localStorage.setItem('auth-token', token);
 
                 dispatch(setToken(token));
-                console.log( window.localStorage.getItem('auth-token'))
-                //history.push('/');
-                //refetch();
 
-                //console.log(response);
+                dispatch(setAuth(true));
+
+                console.log( window.localStorage.getItem('auth-token'))
+                history.push('/');
+                //refetch();
             }).catch(err => console.log(err));
 
         setUsername('');

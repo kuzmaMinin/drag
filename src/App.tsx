@@ -1,18 +1,31 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Container} from './styled-components/styled-components';
 import ColItem from "./components/ColItem";
 import {useGetCardsQuery, useUpdateCardMutation} from "./store/indexApi";
-import {Route, Switch} from "react-router";
+import {Redirect, Route, Switch, useHistory} from "react-router";
 import Register from "./components/Register";
 import MainHeader from "./components/MainHeader";
 import Auth from './components/Auth';
 import {ICard} from "../interfaces/interfaces";
-import {useDispatch} from "react-redux";
-import { setIndex } from './store/indexSlice';
+import {useDispatch, useSelector} from "react-redux";
+import {selectIsAuth, setIndex} from './store/indexSlice';
 
 function App() {
+    const isAuth = useSelector(selectIsAuth);
+    const history = useHistory();
+
+    useEffect(() => {
+        if (!isAuth) {
+            history.push('/auth')
+        }
+    }, [])
+
+
+
     const {data, isLoading} = useGetCardsQuery();
     const [updateCard] = useUpdateCardMutation();
+
+
     console.log(data, isLoading);
 
     const dragItem = useRef(null) as unknown as React.MutableRefObject<HTMLDivElement>;
@@ -115,6 +128,7 @@ function App() {
                                 />
                             })
                         }
+                        )
                     </Route>
                     <Route path='/register'>
                         <Register/>
