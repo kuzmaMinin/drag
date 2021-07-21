@@ -33,7 +33,7 @@ const MainHeader: FC = () => {
     return (
         <HeaderContainer>
             <LinkItem>
-                {isAuth && <Link to='/'>Главная</Link>}
+                {isAuth && <Link to='/cards'>Карточки</Link>}
             </LinkItem>
             {
                 isAuth ? withAuth : withoutAuth

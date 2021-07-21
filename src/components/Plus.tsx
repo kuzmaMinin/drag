@@ -18,8 +18,3 @@ const Plus: FC = () => {
 };
 
 export default Plus;
-
-// const style = {
-//     enableBackground: 'new 0 0 128 128'
-// }
-//throwIfNamespace={false}

@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  min-height: 100vh;
-  padding: 0 150px 50px;
+  min-height: calc(100vh - 62px);
+  padding: 0 0 50px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   align-items: flex-start;
   background-color: #2f2e2e;
 `;
@@ -15,6 +15,7 @@ export const ColumnContainer = styled.div`
   margin-top: 50px;
   display: flex;
   flex-direction: column;
+  height: fit-content;
 `
 
 export const Column = styled.div`
@@ -29,7 +30,7 @@ interface IHeaderProps {
     bgc: string;
 }
 
-export const Header = styled.div<IHeaderProps> `
+export const Header = styled.div<IHeaderProps>`
   width: 100%;
   height: 60px;
   padding: 10px;
@@ -217,5 +218,13 @@ export const Exit = styled.span`
   :hover {
     cursor: pointer;
   }
+`
+
+export const CardContainer = styled.div`
+    width: 100%;
+    padding: 0 100px 50px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
 `
 

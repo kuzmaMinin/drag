@@ -33,10 +33,9 @@ const Register: FC = () => {
 
         createUser(body)
             .then(response => {
-            // @ts-ignore
-            const token = response.data.token;
-            window.localStorage.setItem('register-token', token);
-            console.log(response);
+                //@ts-ignore
+                const token = response.data.token;
+                 window.localStorage.setItem('register-token', token);
         });
     }
 
@@ -45,16 +44,9 @@ const Register: FC = () => {
             <RegisterInput type="text" id='username' value={username} onChange={handleInputChange} placeholder='Имя'/>
             <RegisterInput type="text" id='email' value={email} onChange={handleInputChange} placeholder='Email'/>
             <RegisterInput type="text" id='password' value={password} onChange={handleInputChange} placeholder='Пароль'/>
-
             <RegisterButton onClick={handleRegister}>Регистрация</RegisterButton>
         </RegisterForm>
     );
 };
 
 export default Register;
-
-// {
-//     "username": "kuzma",
-//     "email": "kuzma@post.ru",
-//     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1ODMsInVzZXJuYW1lIjoia3V6bWEiLCJleHAiOjE2MjY2OTQ1OTcsImVtYWlsIjoia3V6bWFAcG9zdC5ydSIsIm9yaWdfaWF0IjoxNjI2NjkwOTk3fQ.M1HfUwwHR5xv8akT-jutxLq0MfuZYavPmWyicOdomS8"
-// }

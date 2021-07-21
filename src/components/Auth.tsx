@@ -1,5 +1,5 @@
 import React, {FC, useState} from 'react';
-import {useGetCardsQuery, useLoginUserMutation} from "../store/indexApi";
+import {useLoginUserMutation} from "../store/indexApi";
 import {RegisterButton, RegisterForm, RegisterInput} from "../styled-components/styled-components";
 import {useHistory} from "react-router";
 import {useDispatch} from "react-redux";
@@ -9,8 +9,6 @@ const Auth: FC = () => {
     const [username, setUsername] = useState<string>('kuzma');
     const [password, setPassword] = useState<string>('qwerty123!');
     const history = useHistory();
-
-    const {refetch} = useGetCardsQuery();
 
     const dispatch = useDispatch();
 
@@ -39,16 +37,12 @@ const Auth: FC = () => {
                 window.localStorage.setItem('auth-token', token);
 
                 dispatch(setToken(token));
-
                 dispatch(setAuth(true));
-
-                console.log( window.localStorage.getItem('auth-token'));
-
-                refetch();
-
-                history.push('/');
-
-            }).catch(err => console.log(err));
+            })
+            .then(() => {
+                history.push('/cards');
+            })
+            .catch(err => console.log(err));
 
         setUsername('');
         setPassword('');
@@ -66,6 +60,3 @@ const Auth: FC = () => {
 };
 
 export default Auth;
-
-
-// eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1ODMsInVzZXJuYW1lIjoia3V6bWEiLCJleHAiOjE2MjY2OTc1MTUsImVtYWlsIjoia3V6bWFAcG9zdC5ydSIsIm9yaWdfaWF0IjoxNjI2NjkzOTE1fQ.ZrJltbzUWrRrvf7uvAknXH9john6u351DDEmR9Bkj_g

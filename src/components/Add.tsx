@@ -5,11 +5,9 @@ import {
 } from '../styled-components/styled-components';
 import Plus from "./Plus";
 import Close from "./Close";
-import {ICard} from "../../interfaces/interfaces";
 import {useCreateCardMutation} from '../store/indexApi';
 
 interface IAddProps {
-    column: ICard[];
     columnRow: string;
 }
 
@@ -18,7 +16,7 @@ interface ICardRes {
     row: string;
 }
 
-const Add: FC<IAddProps> = ({column, columnRow}) => {
+const Add: FC<IAddProps> = ({columnRow}) => {
     const [showForm, setShowForm] = useState<boolean>(false);
     const [text, setText] = useState<string>('');
 
