@@ -15,16 +15,16 @@ function App() {
     const history = useHistory();
 
     useEffect(() => {
-        if (!isAuth) {
+        if (isAuth === false) {
             history.push('/auth')
         }
+        refetch()
     }, [])
 
 
 
-    const {data, isLoading} = useGetCardsQuery();
+    const {data, isLoading, refetch} = useGetCardsQuery();
     const [updateCard] = useUpdateCardMutation();
-
 
     console.log(data, isLoading);
 
@@ -74,7 +74,7 @@ function App() {
 
         setTimeout(() => {
             //@ts-ignore
-            e.target.style.marginTop = '150px';
+           e.target.style.marginTop = '150px';
         }, 500)
 
 
@@ -85,10 +85,10 @@ function App() {
         console.log('leave');
 
 
-        setTimeout(() => {
+       // setTimeout(() => {
             //@ts-ignore
-            e.target.style.marginTop = 0;
-        }, 500)
+            //e.target.style.marginTop = 0;
+       // }, 500)
         //dispatch(setIndex(999));
     }
 
@@ -112,24 +112,25 @@ function App() {
             <MainHeader/>
             <Container className="App" onDrop={handleAppDrop} onDragOver={handleAppDragOver}>
                 <Switch>
-                    <Route path='/' exact>
-                        {
-                            sorted.map((column: { title: string, items: ICard[], id: number, bgc: string }) => {
-                                return <ColItem
-                                    column={column.items}
-                                    title={column.title}
-                                    key={column.id}
-                                    bgc={column.bgc}
-                                    columnRow={column.id.toString()}
-                                    handleDragStart={handleDragStart}
-                                    handleDropCol={handleDropCol}
-                                    handleDragEnter={handleDragEnter}
-                                    handleDragLeave={handleDragLeave}
-                                />
-                            })
-                        }
-                        )
-                    </Route>
+                    {
+                     isAuth && <Route path='/' exact>
+                            {
+                                sorted.map((column: { title: string, items: ICard[], id: number, bgc: string }) => {
+                                    return <ColItem
+                                        column={column.items}
+                                        title={column.title}
+                                        key={column.id}
+                                        bgc={column.bgc}
+                                        columnRow={column.id.toString()}
+                                        handleDragStart={handleDragStart}
+                                        handleDropCol={handleDropCol}
+                                        handleDragEnter={handleDragEnter}
+                                        handleDragLeave={handleDragLeave}
+                                    />
+                                })
+                            }
+                        </Route>
+                    }
                     <Route path='/register'>
                         <Register/>
                     </Route>

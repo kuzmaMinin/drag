@@ -6,8 +6,8 @@ import {useDispatch} from "react-redux";
 import {setAuth, setToken} from "../store/indexSlice";
 
 const Auth: FC = () => {
-    const [username, setUsername] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const [username, setUsername] = useState<string>('kuzma');
+    const [password, setPassword] = useState<string>('qwerty123!');
     const history = useHistory();
 
     const {refetch} = useGetCardsQuery();
@@ -42,9 +42,12 @@ const Auth: FC = () => {
 
                 dispatch(setAuth(true));
 
-                console.log( window.localStorage.getItem('auth-token'))
+                console.log( window.localStorage.getItem('auth-token'));
+
+                refetch();
+
                 history.push('/');
-                //refetch();
+
             }).catch(err => console.log(err));
 
         setUsername('');
@@ -56,7 +59,7 @@ const Auth: FC = () => {
             <RegisterInput
                 type="text" id='username' value={username} onChange={handleInputChange} placeholder='Имя'/>
             <RegisterInput
-                type="text" id='password' value={password} onChange={handleInputChange} placeholder='Пароль'/>
+                type="password" id='password' value={password} onChange={handleInputChange} placeholder='Пароль'/>
             <RegisterButton onClick={handleLogin}>Войти</RegisterButton>
         </RegisterForm>
     );
